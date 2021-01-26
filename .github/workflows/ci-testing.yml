@@ -38,6 +38,12 @@ jobs:
         pip list
       shell: bash
 
+    - name: Test makefile
+      if: runner.os != 'Windows'
+      run: |
+        # make download
+        make all
+
     - name: Build package
       run: |
         python setup.py build_ext --inplace

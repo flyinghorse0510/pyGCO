@@ -87,59 +87,56 @@ gco_files += [os.path.join('gco', 'cgco.cpp')]
 
 install_reqs = _parse_requirements(os.path.join(HERE, 'requirements.txt'))
 
-setup(name='gco-wrapper',
-      url='http://vision.csd.uwo.ca/code/',
-      packages=['gco'],
-      version='3.0.4',
-      license='MIT',
+setup(
+    name='gco-wrapper',
+    url='http://vision.csd.uwo.ca/code/',
+    packages=['gco'],
+    version='3.0.5',
+    license='MIT',
 
-      author='Yujia Li & A. Mueller',
-      author_email='yujiali@cs.tornto.edu',
-      maintainer='Jiri Borovec',
-      maintainer_email='jiri.borovec@fel.cvut.cz',
-      description='pyGCO: a python wrapper for the graph cuts package',
-      download_url='https://github.com/Borda/pyGCO',
-      platforms=['Linux'],
+    author='Yujia Li & A. Mueller',
+    author_email='yujiali@cs.tornto.edu',
+    maintainer='Jiri Borovec',
+    maintainer_email='jiri.borovec@fel.cvut.cz',
+    description='pyGCO: a python wrapper for the graph cuts package',
+    download_url='https://github.com/Borda/pyGCO',
+    platforms=['Linux'],
 
-      zip_safe=False,
-      cmdclass={'build_ext': BuildExt},
-      ext_modules=[
-          Extension('gco.libcgco',
-                    gco_files,
-                    language='c++',
-                    include_dirs=[LOCAL_SOURCE],
-                    library_dirs=[LOCAL_SOURCE],
-                    # extra_compile_args=["-fpermissive"],
-                    ),
-      ],
-      setup_requires=['numpy<1.17'],  # numpy v1.17 drops support for py2
-      install_requires=install_reqs,
-      # test_suite='nose.collector',
-      # tests_require=['nose'],
-      include_package_data=True,
+    zip_safe=False,
+    cmdclass={'build_ext': BuildExt},
+    ext_modules=[
+      Extension('gco.libcgco',
+                gco_files,
+                language='c++',
+                include_dirs=[LOCAL_SOURCE],
+                library_dirs=[LOCAL_SOURCE],
+                # extra_compile_args=["-fpermissive"],
+                ),
+    ],
+    setup_requires=['numpy'],  # numpy v1.17 drops support for py2
+    install_requires=install_reqs,
+    # test_suite='nose.collector',
+    # tests_require=['nose'],
+    include_package_data=True,
 
-      long_description='This is a python wrapper for gco package '
-                       '(http://vision.csd.uwo.ca/code/), '
-                       'which implements a graph cuts based move-making '
-                       'algorithm for optimization in Markov Random Fields.',
-      # See https://PyPI.python.org/PyPI?%3Aaction=list_classifiers
-      classifiers=[
-          "Development Status :: 4 - Beta",
-          "Environment :: Console",
-          "Intended Audience :: Developers",
-          "Intended Audience :: Information Technology",
-          "Intended Audience :: Education",
-          "Intended Audience :: Science/Research",
-          "License :: OSI Approved :: MIT License",
-          "Natural Language :: English",
-          # "Topic :: Scientific/Engineering :: Image Segmentation",
-          # Specify the Python versions you support here. In particular, ensure
-          # that you indicate whether you support Python 2, Python 3 or both.
-          "Programming Language :: Python :: 2",
-          "Programming Language :: Python :: 2.7",
-          "Programming Language :: Python :: 3",
-          "Programming Language :: Python :: 3.4",
-          "Programming Language :: Python :: 3.5",
-          "Programming Language :: Python :: 3.6",
-      ],
+    # See https://PyPI.python.org/PyPI?%3Aaction=list_classifiers
+    classifiers=[
+      "Development Status :: 4 - Beta",
+      "Environment :: Console",
+      "Intended Audience :: Developers",
+      "Intended Audience :: Information Technology",
+      "Intended Audience :: Education",
+      "Intended Audience :: Science/Research",
+      "License :: OSI Approved :: MIT License",
+      "Natural Language :: English",
+      # "Topic :: Scientific/Engineering :: Image Segmentation",
+      # Specify the Python versions you support here. In particular, ensure
+      # that you indicate whether you support Python 2, Python 3 or both.
+      "Programming Language :: Python :: 2",
+      "Programming Language :: Python :: 2.7",
+      "Programming Language :: Python :: 3",
+      "Programming Language :: Python :: 3.6",
+      "Programming Language :: Python :: 3.7",
+      "Programming Language :: Python :: 3.8",
+    ],
 )
