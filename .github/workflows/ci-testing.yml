@@ -17,7 +17,7 @@ jobs:
         python-version: [2.7, 3.6, 3.8]
 
     # Timeout: https://stackoverflow.com/a/59076067/4521646
-    timeout-minutes: 5
+    timeout-minutes: 10
 
     steps:
     - uses: actions/checkout@v2
@@ -34,7 +34,7 @@ jobs:
     - name: Install dependencies
       run: |
         pip install --requirement requirements.txt --upgrade
-        pip install pytest>=3.0 coverage codecov
+        pip install pytest>=3.0 coverage codecov check-manifest
         pip list
       shell: bash
 
@@ -54,6 +54,8 @@ jobs:
 
     - name: Try installing
       run: |
+        check-manifest
+        python setup.py check --metadata --strict
         python setup.py install
 
     - name: Upload pytest test results

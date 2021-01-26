@@ -1,5 +1,15 @@
 include README.md
-exclude requirements.txt
+include requirements.txt
 # Include source files
-include gco_source/*.h
-include gco_source/*.cpp
+recursive-include gco *.h
+recursive-include gco_source *.TXT
+recursive-include gco_source *.h
+recursive-include gco_source *.cpp
+
+exclude test_*.py
+exclude test_*.cpp
+exclude *.yml
+exclude Makefile
+
+prune images
+prune gco_source/matlab
