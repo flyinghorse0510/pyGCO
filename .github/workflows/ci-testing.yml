@@ -44,7 +44,7 @@ jobs:
 
     - name: Tests
       run: |
-        coverage run --source gco -m pytest . -v --junitxml=junit/test-results-${{ runner.os }}-${{ matrix.python-version }}.xml
+        coverage run --source gco -m pytest . -v --doctest-modules --junitxml=junit/test-results-${{ runner.os }}-${{ matrix.python-version }}.xml
 
     - name: Try installing
       run: |
