@@ -26,6 +26,8 @@ except ImportError:
     from distutils.command.build_ext import build_ext
 
 HERE = os.path.abspath(os.path.dirname(__file__))
+PACKAGE_NAME = 'gco-v3.0.zip'
+URL_LIB_GCO = 'http://vision.csd.uwo.ca/code/' + PACKAGE_NAME
 LOCAL_SOURCE = 'gco_source'
 
 
@@ -40,6 +42,9 @@ class BuildExt(build_ext):
     SEE: https://stackoverflow.com/questions/2379898
     SEE: https://stackoverflow.com/questions/19919905/how-to-bootstrap-numpy-installation-in-setup-py
     """
+
+    def get_export_symbols(self, ext):
+        return None
 
     def finalize_options(self):
         build_ext.finalize_options(self)
@@ -85,7 +90,7 @@ install_reqs = _parse_requirements(os.path.join(HERE, 'requirements.txt'))
 setup(name='gco-wrapper',
       url='http://vision.csd.uwo.ca/code/',
       packages=['gco'],
-      version='3.0.3',
+      version='3.0.4',
       license='MIT',
 
       author='Yujia Li & A. Mueller',

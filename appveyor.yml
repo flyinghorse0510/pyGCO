@@ -28,6 +28,9 @@ environment:
       PYTHON_VERSION: "3.6.x"
       PYTHON_ARCH: "64"
 
+    - PYTHON: "C:\\Python38-x64"
+      PYTHON_VERSION: "3.8.x"
+      PYTHON_ARCH: "64"
 
 install:
   # If there is a newer build queued for the same PR, cancel this one.
@@ -39,21 +42,28 @@ install:
   - python --version
   - pip --version
   - pip install -r requirements.txt
-  - pip install pytest  # nose coverage
+  - pip install pytest coverage
   - pip list
+  - dir
 
 build_script:
   # Build the compiled extension
-  # - nmake -f Makefile download
-  # - nmake -f Makefile all
-  # - nmake -f Makefile test_wrapper
+  #- cl gco_source\LinkedBlockList.cpp /link /out:LinkedBlockList.obj
+  #- cl gco_source\graph.cpp /link /out:graph.obj
+  #- cl gco_source\maxflow.cpp /link /out:maxflow.obj
+  #- cl gco_source\GCoptimization.cpp /link /out:GCoptimization.obj
+  #- cl cgco.cpp /link /out:cgco.obj
+  #- cl LinkedBlockList.obj graph.obj maxflow.obj GCoptimization.obj cgco.obj /link /dll /out:libcgco.dll
+  #- cl /EHsc test_wrapper.cpp libcgco.lib
   - python setup.py build_ext --inplace
-  # - python setup.py install
   - dir
 
 test_script:
-  - pytest --doctest-modules
-#  - nosetests --with-coverage   # --cover-package=pygco
+  - coverage run --source=gco -m py.test gco test_examples.py -v --doctest-modules --junitxml=pytest_junit.xml
+
+after_test:
+  # If tests are successful, create binary packages for the project.
+  - python setup.py install
 
 on_success:
   - coverage report

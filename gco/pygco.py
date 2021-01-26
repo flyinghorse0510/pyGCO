@@ -1,3 +1,5 @@
+import sys
+
 import numpy as np
 import ctypes as ct
 try:
@@ -14,7 +16,10 @@ _PAIRWISE_FLOAT_PRECISION = 1000
 _SMOOTH_COST_PRECISION = 100
 
 _int_types = [np.int, np.intc, np.int32, np.int64, np.longlong]
-_float_types = [np.float, np.float32, np.float64, np.float128]
+if sys.platform == 'win32':
+    _float_types = [np.float, np.float32, np.float64]
+else:
+    _float_types = [np.float, np.float32, np.float64, np.float128]
 
 _SMALL_CONSTANT = 1e-10
 
@@ -302,8 +307,8 @@ def cut_general_graph(edges, edge_weights, unary_cost, pairwise_cost=None,
     >>> unary[:5, 1] = 1.
     >>> pairwise = (1 - np.eye(unary.shape[1])) * 0.5
     >>> labels = cut_general_graph(edges, weights, unary, pairwise)
-    >>> labels
-    array([0, 0, 0, 0, 0, 1, 1, 1, 1, 1], dtype=int32)
+    >>> labels  # doctest: +ELLIPSIS
+    array([0, 0, 0, 0, 0, 1, 1, 1, 1, 1]...)
     """
     energy_is_float = (unary_cost.dtype in _float_types) or \
         (edge_weights.dtype in _float_types) or \
