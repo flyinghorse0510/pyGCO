@@ -91,7 +91,7 @@ setup(
     name='gco-wrapper',
     url='http://vision.csd.uwo.ca/code/',
     packages=['gco'],
-    version='3.0.5',
+    version='3.0.6',
     license='MIT',
 
     author='Yujia Li & A. Mueller',
@@ -100,18 +100,21 @@ setup(
     maintainer_email='jiri.borovec@fel.cvut.cz',
     description='pyGCO: a python wrapper for the graph cuts package',
     download_url='https://github.com/Borda/pyGCO',
-    platforms=['Linux'],
+    project_urls={
+        "Source Code": "https://github.com/Borda/pyGCO",
+    },
 
     zip_safe=False,
     cmdclass={'build_ext': BuildExt},
     ext_modules=[
-      Extension('gco.libcgco',
-                gco_files,
-                language='c++',
-                include_dirs=[LOCAL_SOURCE],
-                library_dirs=[LOCAL_SOURCE],
-                # extra_compile_args=["-fpermissive"],
-                ),
+        Extension(
+            'gco.libcgco',
+            gco_files,
+            language='c++',
+            include_dirs=[LOCAL_SOURCE],
+            library_dirs=[LOCAL_SOURCE],
+            # extra_compile_args=["-fpermissive"],
+        ),
     ],
     setup_requires=['numpy'],  # numpy v1.17 drops support for py2
     install_requires=install_reqs,
@@ -138,5 +141,6 @@ setup(
       "Programming Language :: Python :: 3.6",
       "Programming Language :: Python :: 3.7",
       "Programming Language :: Python :: 3.8",
+      "Programming Language :: Python :: 3.9",
     ],
 )
