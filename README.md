@@ -1,12 +1,20 @@
 # pyGCO: a python wrapper for the graph cuts
 
+**The original wrapper is [pygco](https://github.com/yujiali/pygco)**
+
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/gco-wrapper)](https://pypi.org/project/gco-wrapper/)
+[![PyPI Status](https://badge.fury.io/py/gco-wrapper.svg)](https://badge.fury.io/py/gco-wrapper)
+[![PyPI Status](https://pepy.tech/badge/gco-wrapper)](https://pepy.tech/project/gco-wrapper)
 ![CI testing](https://github.com/Borda/pyGCO/workflows/CI%20testing/badge.svg?branch=master&event=push)
 [![codecov](https://codecov.io/gh/Borda/pyGCO/branch/master/graph/badge.svg)](https://codecov.io/gh/Borda/pyGCO)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/4b875e6fbf3349e18a139a2a005736a4)](https://www.codacy.com/app/Borda/pyGCO?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Borda/pyGCO&amp;utm_campaign=Badge_Grade)
-[![Coverage Badge](https://api.shippable.com/projects/5883a5e12a5d900f00b8b9ff/coverageBadge?branch=master)](https://app.shippable.com/github/Borda/pyGCO)
-[![Maintainability](https://api.codeclimate.com/v1/badges/9c11485e2f4f23189069/maintainability)](https://codeclimate.com/github/Borda/pyGCO/maintainability)
 
-The original wrapper is [pygco](https://github.com/yujiali/pygco)
+<!--
+[![Maintainability](https://api.codeclimate.com/v1/badges/9c11485e2f4f23189069/maintainability)](https://codeclimate.com/github/Borda/pyGCO/maintainability)
+[![Coverage Badge](https://api.shippable.com/projects/5883a5e12a5d900f00b8b9ff/coverageBadge?branch=master)](https://app.shippable.com/github/Borda/pyGCO)
+-->
+
+---
 
 This is a python wrapper for [gco-v3.0 package](http://vision.csd.uwo.ca/code/), which implements a graph cuts based move-making algorithm for optimization in Markov Random Fields.
 
