@@ -70,7 +70,8 @@ setup(
     name='gco-wrapper',
     url='http://vision.csd.uwo.ca/code/',
     packages=['gco'],
-    version='3.0.7',
+    # edit also gco.__init__.py!
+    version='3.0.8',
     license='MIT',
     author='Yujia Li & A. Mueller',
     author_email='yujiali@cs.tornto.edu',
