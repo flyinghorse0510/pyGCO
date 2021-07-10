@@ -1,29 +1,24 @@
 import ctypes as ct
-import glob
 import os
+from glob import glob
 
 import numpy as np
 
+_LIB_BASE_NAME = 'libcgco'
+_LIB_EXTENSIONS = ('.so', '.pyd', '.dll')
 # or change this to your own path that contains libcgco.so
 _CGCO_LIB_PATH = os.path.dirname(os.path.abspath(os.path.realpath(__file__)))
-LIB_NAME = 'libcgco'
+assert os.path.isdir(_CGCO_LIB_PATH)
 
-LIST_LIBGCO = glob.glob(os.path.join(_CGCO_LIB_PATH, LIB_NAME + '.*'))
-assert len(LIST_LIBGCO) > 0, 'nothing found: %s' % repr(LIST_LIBGCO)
-lib_exts = [os.path.splitext(os.path.basename(p))[1] for p in LIST_LIBGCO]
-if '.so' in lib_exts:
-    _CGCO_LIB_NAME = LIST_LIBGCO[lib_exts.index('.so')]
-elif '.lib' in lib_exts:
-    _CGCO_LIB_NAME = LIST_LIBGCO[lib_exts.index('.lib')]
-elif '.dll' in lib_exts:
-    _CGCO_LIB_NAME = LIST_LIBGCO[lib_exts.index('.dll')]
-else:  # not sure what it found...
-    print('found libs: %s' % repr([os.path.basename(p) for p in LIST_LIBGCO]))
-    _CGCO_LIB_NAME = os.path.basename(LIST_LIBGCO[0])
-assert os.path.exists(_CGCO_LIB_PATH), '%s' % _CGCO_LIB_PATH
+_LIBGCO_PATTER = os.path.join(_CGCO_LIB_PATH, _LIB_BASE_NAME + '.*')
+_LIST_LIBGCO = glob(_LIBGCO_PATTER)
+if not _LIST_LIBGCO:
+    raise FileNotFoundError('no compiled library found in %s' % repr(_LIBGCO_PATTER))
 
-# _CGCO_LIB_PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-# _CGCO_LIB_NAME = 'cgco'
+_CGCO_LIB_NAMES = [os.path.basename(pl) for pl in _LIST_LIBGCO if os.path.splitext(pl)[1] in _LIB_EXTENSIONS]
+if not _CGCO_LIB_NAMES:  # not sure what it found...
+    raise RuntimeError('found potential libs: %s' % repr(_LIST_LIBGCO))
+_CGCO_LIB_NAME = _CGCO_LIB_NAMES[0]
 
 # change the type definition depending on your machine and the compiled GCO library
 _handle_type = ct.c_int
@@ -43,6 +38,7 @@ _success_ptr_type = np.ctypeslib.ndpointer(dtype=np.intc)
 _SMOOTH_COST_FN = ct.CFUNCTYPE(_energy_term_type, ct.c_int, ct.c_int, _label_id_type, _label_id_type)
 
 # load cgco shared library
+# see: https://catherineh.github.io/programming/2016/07/07/troubleshooting-windows-dll-imports-in-python
 _cgco = np.ctypeslib.load_library(_CGCO_LIB_NAME, _CGCO_LIB_PATH)
 
 # declare the functions, argument types and return types
