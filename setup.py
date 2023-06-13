@@ -17,6 +17,7 @@ Release package
 """
 
 import os
+import re
 import sys
 
 try:
@@ -29,6 +30,23 @@ except ImportError:
 PACKAGE_NAME = os.path.join("gco-v3.0.zip")
 URL_LIB_GCO = "http://vision.csd.uwo.ca/code/" + PACKAGE_NAME
 LOCAL_SOURCE = os.path.join("src", "gco_cpp")
+
+
+try:
+    from importlib.util import module_from_spec, spec_from_file_location
+
+    def _load_py_module(module_name, location):
+        spec = spec_from_file_location(module_name, location)
+        py = module_from_spec(spec)
+        spec.loader.exec_module(py)
+        return py
+
+except ImportError:
+    import imp
+
+    def _load_py_module(module_name, location):
+        py = imp.load_source(module_name, location)
+        return py
 
 
 class BuildExt(build_ext):
@@ -57,8 +75,22 @@ GCO_FILES += [os.path.join("src", "gco", "cgco.cpp")]
 if sys.version_info.major == 2:
     # numpy v1.17 drops support for py2
     SETUP_REQUIRES = INSTALL_REQUIRES = ["Cython>=0.23.1", "numpy>=1.8.2, <1.17"]
+    encode_kw = {}
 else:
     SETUP_REQUIRES = INSTALL_REQUIRES = ["Cython>=0.23.1", "numpy>=1.8.2"]
+    encode_kw = dict(encoding="utf_8")
+
+ABOUT = _load_py_module(module_name="about", location=os.path.join("src", "gco", "__about__.py"))
+
+with open("README.md", **encode_kw) as fp:
+    readme = re.sub(
+        # replace image pattern
+        pattern=r"\!\[([\w ]+)\]\(\./(.+)\)",
+        # with static urls and the same format
+        repl=r"![\1](https://raw.githubusercontent.com/borda/pyGCO/%s/\2)" % ABOUT.__version__,
+        # for whole README
+        string=fp.read(),
+    )
 
 setup(
     name="gco-wrapper",
@@ -66,13 +98,15 @@ setup(
     package_dir={"": "src"},
     packages=find_packages(where="src"),
     # edit also gco.__init__.py!
-    version="3.0.9",
+    version=ABOUT.__version__,
     license="MIT",
     author="Yujia Li & A. Mueller",
     author_email="yujiali@cs.tornto.edu",
     maintainer="Jiri Borovec",
     maintainer_email="jiri.borovec@fel.cvut.cz",
     description="pyGCO: a python wrapper for the graph cuts package",
+    long_description=readme,
+    long_description_content_type="text/markdown",
     download_url="https://github.com/Borda/pyGCO",
     project_urls={
         "Source Code": "https://github.com/Borda/pyGCO",
