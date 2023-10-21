@@ -1,0 +1,3 @@
+[submodule "gco_source"]
+	path = gco_source
+	url = https://github.com/flyinghorse0510/gco-v3-source.git
